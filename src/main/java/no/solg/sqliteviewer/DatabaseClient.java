@@ -40,7 +40,7 @@ public class DatabaseClient {
 
     public List<String> getColumnNames(String tableName) {
         List<String> names = new ArrayList<>();
-        final String sql = "SELECT * FROM " + tableName + " LIMIT 0";
+        final String sql = "SELECT * FROM \"" + tableName + "\" LIMIT 0";
         try {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
@@ -56,7 +56,7 @@ public class DatabaseClient {
 
     public int getCount(String tableName, String colName) {
         int count = -1;
-        final String sql = "SELECT count(*) FROM " + tableName;
+        final String sql = "SELECT count(*) FROM \"" + tableName + "\"";
         try {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
@@ -70,7 +70,7 @@ public class DatabaseClient {
 
     public double getAggregated(String tableName, String colName, String func) {
         double aggregated = -1;
-        final String sql = "SELECT " + func + "(" + colName + ") FROM " + tableName;
+        final String sql = "SELECT " + func + "(\"" + colName + "\") FROM \"" + tableName + "\"";
         try {
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
