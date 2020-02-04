@@ -1,8 +1,9 @@
 package no.solg.sqliteviewer;
 
+import java.text.DecimalFormat;
+
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.BasicWindow;
-import com.googlecode.lanterna.gui2.BorderLayout;
 import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -14,13 +15,16 @@ public class ColumnInfoDialog {
     private String columnName;
     private MultiWindowTextGUI gui;
     private DatabaseClient dbClient;
-
+    private DecimalFormat decimalFormat;
 
     public ColumnInfoDialog(String tableName, String columnName, MultiWindowTextGUI gui, DatabaseClient dbClient) {
         this.tableName = tableName;
         this.columnName = columnName;
         this.gui = gui;
         this.dbClient = dbClient;
+
+        decimalFormat = new DecimalFormat("#");
+        decimalFormat.setMaximumFractionDigits(8);
     }
 
     public void show() {
@@ -49,7 +53,7 @@ public class ColumnInfoDialog {
             @Override
             public void run() {
                 double val = dbClient.getAggregated(tableName, columnName, "min");
-                minOutput.setText(String.valueOf(val));
+                minOutput.setText(decimalFormat.format(val));
             }
         }).addTo(panel);
         minOutput.addTo(panel);
@@ -58,7 +62,7 @@ public class ColumnInfoDialog {
             @Override
             public void run() {
                 double val = dbClient.getAggregated(tableName, columnName, "max");
-                maxOutput.setText(String.valueOf(val));
+                maxOutput.setText(decimalFormat.format(val));
             }
         }).addTo(panel);
         maxOutput.addTo(panel);
@@ -67,7 +71,7 @@ public class ColumnInfoDialog {
             @Override
             public void run() {
                 double val = dbClient.getAggregated(tableName, columnName, "avg");
-                avgOutput.setText(String.valueOf(val));
+                avgOutput.setText(decimalFormat.format(val));
             }
         }).addTo(panel);
         avgOutput.addTo(panel);
