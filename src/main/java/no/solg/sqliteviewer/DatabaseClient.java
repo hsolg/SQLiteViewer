@@ -10,12 +10,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sqlite.SQLiteConfig;
+
 public class DatabaseClient {
     private Connection conn;
 
     public DatabaseClient(File file) {
+        SQLiteConfig config = new SQLiteConfig();
+        config.setReadOnly(true);
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:" + file.getPath());
+            conn = DriverManager.getConnection("jdbc:sqlite:" + file.getPath(), config.toProperties());
         } catch (SQLException e) {
             e.printStackTrace();
         }
